@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mekânın Sınırlarını Aşmak - ULTIMAT MATRIX</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#020617;--card:rgba(15,23,42,0.7);--border:rgba(56,189,248,0.3);--cyan:#0ea5e9;--neon:#38bdf8;--green:#10b981;--red:#f43f5e;--yellow:#facc15;--text:#f8fafc;--text-dim:#94a3b8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;background-image:radial-gradient(circle at 15% 50%, rgba(14,165,233,0.06), transparent 25%), radial-gradient(circle at 85% 30%, rgba(16,185,129,0.04), transparent 25%)}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#020617}::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:4px}
+
+.header{text-align:center;padding:15px;position:relative}
+.header h1{font-family:'Teko',sans-serif;font-size:clamp(26px,4vw,44px);font-weight:700;letter-spacing:3px;text-transform:uppercase;background:linear-gradient(90deg,#38bdf8,#818cf8,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 0 40px rgba(56,189,248,0.3)}
+.header p{font-size:12px;color:var(--text-dim);letter-spacing:6px;text-transform:uppercase;margin-top:5px;font-weight:900}
+
+.tab-bar{display:flex;justify-content:center;gap:8px;padding:12px;background:rgba(2,6,23,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;flex-wrap:wrap;box-shadow:0 5px 30px rgba(0,0,0,0.5)}
+.tab-btn{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--text-dim);padding:8px 18px;border-radius:30px;cursor:pointer;font:900 12px Inter;text-transform:uppercase;letter-spacing:1px;transition:.4s}
+.tab-btn:hover{color:var(--text);border-color:rgba(255,255,255,0.3)}
+.tab-btn.active{color:var(--bg);background:var(--neon);box-shadow:0 0 25px rgba(56,189,248,0.7);border-color:var(--neon)}
+
+.page{display:none;padding:25px;animation:zoom .5s cubic-bezier(0.16,1,0.3,1)}
+.page.active{display:block}
+@keyframes zoom{from{opacity:0;transform:scale(0.98) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.sim-layout{display:flex;gap:20px;flex-wrap:wrap;max-width:1600px;margin:0 auto}
+.ctrl-panel{flex:0 0 380px;background:var(--card);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid var(--border);border-radius:20px;padding:25px;max-height:calc(100vh - 140px);overflow-y:auto;box-shadow:0 25px 50px -12px rgba(0,0,0,0.8),inset 0 0 0 1px rgba(255,255,255,0.05)}
+@media(max-width:1000px){.ctrl-panel{flex:1 1 100%;max-height:auto}}
+.canvas-wrap{flex:1;min-width:400px;position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--border);box-shadow:0 0 60px rgba(14,165,233,0.15);height:75vh}
+.canvas-wrap canvas{width:100%;height:100%;display:block;background:#000}
+
+.ctrl-title{font-family:'Teko',sans-serif;font-size:24px;color:var(--neon);margin:15px 0 10px;letter-spacing:1.5px;display:flex;align-items:center;gap:10px}
+.ctrl-title::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--cyan),transparent)}
+.ctrl-title:first-child{margin-top:0}
+label.ctrl-label{display:block;font-size:11px;color:var(--text-dim);margin:12px 0 6px;font-weight:900;letter-spacing:1px;text-transform:uppercase}
+select{width:100%;background:rgba(2,6,23,0.9);color:var(--text);border:1px solid rgba(56,189,248,0.4);border-radius:8px;padding:12px;font:700 13px Inter;outline:none;transition:.3s;appearance:none;margin-bottom:8px;box-shadow:inset 0 0 10px rgba(0,0,0,0.5)}
+select:focus{border-color:var(--neon);box-shadow:0 0 20px rgba(56,189,248,0.4)}
+.range-val{float:right;font-size:15px;font-weight:900;color:var(--neon);font-family:'Teko',sans-serif;letter-spacing:2px}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;background:rgba(255,255,255,0.1);border-radius:3px;margin:5px 0 15px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--bg);border:3px solid var(--neon);cursor:pointer;box-shadow:0 0 15px var(--cyan);transition:.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.4);background:var(--neon)}
+
+.btn{width:100%;padding:15px;border:none;border-radius:10px;font:900 14px Inter;cursor:pointer;transition:all .3s;margin:8px 0;letter-spacing:3px;text-transform:uppercase;position:relative;overflow:hidden}
+.btn-primary{background:var(--bg);color:var(--neon);border:2px solid var(--neon);box-shadow:0 0 20px rgba(14,165,233,0.2)}
+.btn-primary:hover{background:var(--neon);color:var(--bg);box-shadow:0 0 40px rgba(14,165,233,0.7)}
+.btn-danger{background:var(--red);color:#fff;border:2px solid var(--red)}
+.btn-danger:hover{box-shadow:0 0 50px rgba(244,63,94,0.8);background:#e11d48}
+.btn-warn{background:var(--yellow);color:#000;border:2px solid var(--yellow)}
+
+.crt-overlay{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(244,63,94,0.1);pointer-events:none;z-index:10;display:none;animation:flash .5s infinite alternate;box-shadow:inset 0 0 150px rgba(244,63,94,0.6)}
+@keyframes flash{from{opacity:0.3}to{opacity:1}}
+.hud-text{position:absolute;top:25px;left:25px;font-family:'Teko',sans-serif;font-size:36px;color:rgba(255,255,255,0.3);z-index:5;pointer-events:none;text-transform:uppercase;letter-spacing:5px;text-shadow:0 0 20px rgba(255,255,255,0.2)}
+.hud-status{position:absolute;bottom:25px;left:25px;background:rgba(2,6,23,0.8);backdrop-filter:blur(15px);padding:12px 25px;border-radius:10px;border-left:5px solid var(--neon);font:900 13px Inter;text-transform:uppercase;letter-spacing:2px;z-index:5;text-shadow:0 2px 5px #000;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+
+.timer-hud{position:absolute;top:25px;right:25px;width:70px;height:70px;display:none;align-items:center;justify-content:center;background:rgba(2,6,23,0.8);border-radius:50%;backdrop-filter:blur(10px);z-index:20;box-shadow:0 0 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(56,189,248,0.5)}
+.timer-hud svg{transform:rotate(-90deg);width:100%;height:100%}
+.timer-hud circle{fill:none;stroke-width:5;stroke-linecap:round;stroke:var(--neon);stroke-dasharray:188;stroke-dashoffset:188;transition:stroke-dashoffset 0.1s linear}
+.timer-hud.active{display:flex}
+.timer-val{position:absolute;font-family:'Teko',sans-serif;font-size:28px;font-weight:700;color:#fff;text-shadow:0 0 10px var(--neon)}
+
+/* MODAL */
+#modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(2,6,23,0.95);backdrop-filter:blur(20px);z-index:9999;display:flex;opacity:0;pointer-events:none;transition:.5s;align-items:center;justify-content:center}
+#modal-overlay.show{opacity:1;pointer-events:all}
+#modal-panel{background:rgba(15,23,42,0.9);border:1px solid rgba(56,189,248,0.5);border-radius:24px;padding:45px;max-width:850px;width:95%;box-shadow:0 0 150px rgba(14,165,233,0.25),inset 0 0 60px rgba(0,0,0,0.9);transform:scale(0.9) translateY(50px);transition:.6s cubic-bezier(0.22, 1, 0.36, 1);position:relative;overflow:hidden}
+#modal-panel::before{content:'';position:absolute;top:0;left:0;width:100%;height:5px;background:linear-gradient(90deg,var(--cyan),var(--green),var(--yellow),var(--red))}
+#modal-overlay.show #modal-panel{transform:scale(1) translateY(0)}
+.m-badge{position:absolute;top:45px;right:45px;padding:10px 25px;border-radius:30px;font:900 13px Inter;text-transform:uppercase;border:2px solid;box-shadow:0 0 25px currentColor;letter-spacing:2px}
+.m-title{font-family:'Teko',sans-serif;font-size:50px;line-height:1;margin-bottom:25px;color:#fff;text-shadow:0 0 30px rgba(255,255,255,0.4)}
+.m-theory{background:rgba(0,0,0,0.6);border-left:4px solid var(--neon);padding:25px;margin:25px 0;font-size:16px;color:rgba(255,255,255,0.8);line-height:1.7;border-radius:0 12px 12px 0}
+.m-theory strong{color:#fff;font-weight:900;text-shadow:0 0 10px rgba(255,255,255,0.5)}
+.m-metrics{display:flex;gap:20px;margin:25px 0}
+.m-metric{flex:1;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);padding:20px;border-radius:16px;text-align:center;}
+.m-metric .lbl{font-size:11px;font-weight:900;color:var(--text-dim);letter-spacing:2px;text-transform:uppercase}
+.m-metric .val{font-family:'Teko',sans-serif;font-size:55px;font-weight:700;line-height:1;margin-top:10px}
+
+/* DASHBOARD */
+.score-dash{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:35px;margin:20px auto;max-width:1100px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.8)}
+.sb-wrap{height:16px;background:rgba(255,255,255,0.05);border-radius:8px;width:100%;overflow:hidden;display:flex;margin:15px 0;box-shadow:inset 0 5px 15px rgba(0,0,0,0.5)}
+.sb-p{background:var(--cyan);transition:1s cubic-bezier(0.22, 1, 0.36, 1);box-shadow:0 0 20px var(--cyan)}
+.sb-d{background:var(--red);transition:1s cubic-bezier(0.22, 1, 0.36, 1);box-shadow:0 0 20px var(--red)}
+</style>
+</head>
+<body>
+
+<div class="header"><h1>Mega Coğrafya Simülasyon Motoru</h1><p>Çevresel Determinizm vs. Teknolojik Possibilizm | Ultra Grafik Sürümü</p></div>
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="kavram">📖 Akademi Dashboard</button>
+  <button class="tab-btn" data-tab="bina">🏗️ Sismik Bina</button>
+  <button class="tab-btn" data-tab="tarim">🌱 Tarım Biyosferi</button>
+  <button class="tab-btn" data-tab="erciyes">⛷️ İklim Kontrolü</button>
+  <button class="tab-btn" data-tab="enerji">⚡ Dağıtık Şebeke</button>
+  <button class="tab-btn" data-tab="ulasim">🛣️ Mega Dağ Ulaşımı</button>
+</div>
+
+<div id="modal-overlay">
+  <div id="modal-panel">
+    <div class="m-badge" id="m-badge"></div><div class="m-title" id="m-title"></div><div class="m-theory" id="m-theory"></div>
+    <div class="m-metrics">
+      <div class="m-metric"><div class="lbl" style="color:var(--red)">Çevresel Bağımlılık (Determinizm)</div><div class="val" id="m-dep" style="color:var(--red);text-shadow:0 0 20px var(--red)"></div></div>
+      <div class="m-metric"><div class="lbl" style="color:var(--cyan)">Sistem Özgürlüğü (Possibilizm)</div><div class="val" id="m-ind" style="color:var(--cyan);text-shadow:0 0 20px var(--cyan)"></div></div>
+    </div>
+    <button class="btn btn-primary" id="m-close">Simülasyon Çıktısını Kaydet</button>
+  </div>
+</div>
+
+<div class="page active" id="page-kavram">
+  <div class="score-dash">
+    <div style="font-size:14px;color:var(--text-dim);font-weight:900;letter-spacing:4px;text-transform:uppercase">Mekânı Aşma İndeksi (Kayıtlı Profil)</div>
+    <div style="font-family:'Teko',sans-serif;font-size:100px;line-height:1.2;color:var(--green);text-shadow:0 0 50px var(--green)" id="dash-win">0</div>
+    <div style="display:flex;justify-content:space-between;font-weight:900;font-size:14px;text-transform:uppercase;margin-top:20px">
+      <span style="color:var(--cyan);text-shadow:0 0 10px var(--cyan)">Possibilizm Zaferi</span><span style="color:var(--red);text-shadow:0 0 10px var(--red)">Doğaya Tutsaklık</span>
+    </div>
+    <div class="sb-wrap"><div class="sb-p" id="sb-p" style="width:50%"></div><div class="sb-d" id="sb-d" style="width:50%"></div></div>
+    <button class="btn btn-warn" style="max-width:250px;margin-top:20px" id="reset-btn">Sistem Belleğini Sil</button>
+  </div>
+</div>
+
+<!-- ================= BİNA ================= -->
+<div class="page" id="page-bina">
+  <div class="sim-layout">
+    <div class="ctrl-panel">
+      <div class="ctrl-title">1. ZEMİN MEKANİĞİ</div>
+      <select id="b-zemin"><option value="kaya">🪨 Granit Masif Kaya</option><option value="orta">🟢 Tortul Toprak</option><option value="kum">⚠️ Gevşek Kum</option></select>
+      <label class="ctrl-label">Yeraltı Su Seviyesi (Sıvılaşma Riski) <span class="range-val" id="rv-bsu">%20</span></label><input type="range" id="b-su" min="0" max="100" value="20">
+      <div class="ctrl-title">2. SÜPERSTRÜKTÜR</div>
+      <select id="b-temel"><option value="izolator">Sismik İzolatör</option><option value="kazik">Kazık Temel</option><option value="standart">Radye Jeneral</option></select>
+      <select id="b-malz"><option value="celik">Çelik I-Kiriş</option><option value="beton">C50 Betonarme</option><option value="kerpi">Kerpiç / Yığma</option></select>
+      <label class="ctrl-label">Kat Sayısı <span class="range-val" id="rv-bkat">6</span></label><input type="range" id="b-kat" min="2" max="15" value="6">
+      <label class="ctrl-label">Kolon Kalınlığı <span class="range-val" id="rv-bcol">15cm</span></label><input type="range" id="b-col" min="5" max="30" value="15">
+      <div class="ctrl-title">3. TEKTONİK YIKIM</div>
+      <label class="ctrl-label">Fay Enerjisi <span class="range-val" id="rv-bsid">7.5 Mw</span></label><input type="range" id="b-siddet" min="40" max="95" value="75">
+      <button class="btn btn-danger" id="b-play">🚨 DEPREM BAŞLAT</button><button class="btn btn-primary" id="b-reset">🔄 YAPIYI SIFIRLA</button>
+    </div>
+    <div class="canvas-wrap"><div class="crt-overlay" id="b-crt"></div><div class="hud-text">SİSMİK TEST OVP</div><div class="hud-status" id="b-status">Sistem Stabil</div><div class="timer-hud" id="b-timer-hud"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="22" id="b-ring"/></svg><div class="timer-val" id="b-tval">12</div></div><canvas id="cv-bina"></canvas></div>
+  </div>
+</div>
+
+<!-- ================= ULAŞIM ================= -->
+<div class="page" id="page-ulasim">
+  <div class="sim-layout">
+    <div class="ctrl-panel">
+      <div class="ctrl-title">1. MİMARİ VE KAPASİTE</div>
+      <select id="u-yol"><option value="tunel">Tünel / Viyadük Sistemi</option><option value="gelenek">Geleneksel Dağ Geçidi</option></select>
+      <label class="ctrl-label">Tünel Beton/Zırh Kalitesi (Dayanım)</label><select id="u-beton"><option value="c80">C80 Çelik-Lifli Özel Beton (Maks)</option><option value="c30">C30 Standart Beton</option><option value="c15">C15 Düşük Kalite Harç (Riskli)</option></select>
+      <label class="ctrl-label">Otoyol Şerit Sayısı <span class="range-val" id="rv-userit">2 Şerit</span></label><input type="range" id="u-serit" min="1" max="4" value="2">
+      <div class="ctrl-title">2. DOĞAL TEHDİT</div>
+      <label class="ctrl-label">Çığ ve Heyelan Kütlesi <span class="range-val" id="rv-ucig">50.000t</span></label><input type="range" id="u-cig" min="10" max="250" value="50">
+      <button class="btn btn-warn" style="margin-top:20px" id="u-play">🏔️ ÇIĞ FELAKETİ YARAT</button><button class="btn btn-primary" id="u-reset">🔄 YOLLARI TEMİZLE</button>
+    </div>
+    <div class="canvas-wrap"><div class="crt-overlay" id="u-crt" style="background:rgba(255,255,255,0.15)"></div><div class="hud-text">LOJİSTİK ŞEBEKESİ</div><div class="hud-status" id="u-status">Trafik Işıkları Yeşil</div><div class="timer-hud" id="u-timer-hud"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="22" id="u-ring"/></svg><div class="timer-val" id="u-tval">12</div></div><canvas id="cv-ulasim"></canvas></div>
+  </div>
+</div>
+
+<!-- ================= TARIM ================= -->
+<div class="page" id="page-tarim">
+  <div class="sim-layout">
+    <div class="ctrl-panel">
+      <div class="ctrl-title">1. BİYOSFER ALTYAPISI</div>
+      <select id="t-sys"><option value="hydro">Tam Kapalı Hidroponik</option><option value="sera">Cam Sera Formasyonu</option><option value="acik">Geleneksel Açık Tarla</option></select>
+      <label class="ctrl-label">Toprak/Gübre Verimlilik İndeksi <span class="range-val" id="rv-ttoprak">%70</span></label><input type="range" id="t-toprak" min="10" max="100" value="70">
+      <div class="ctrl-title">2. İKLİM KOŞULLARI</div>
+      <label class="ctrl-label">Sıcaklık (Kuraklık / Don) <span class="range-val" id="rv-ttemp">22°C</span></label><input type="range" id="t-temp" min="-20" max="50" value="22">
+      <label class="ctrl-label">Rüzgar / Fırtına Şiddeti <span class="range-val" id="rv-twind">10 km/h</span></label><input type="range" id="t-wind" min="0" max="150" value="10">
+      <label class="ctrl-label">Yağış Miktarı <span class="range-val" id="rv-train">30mm</span></label><input type="range" id="t-rain" min="0" max="100" value="30">
+      <button class="btn btn-danger" style="margin-top:20px" id="t-play">⏳ MEVSİMİ İZLE (ANALİZ)</button><button class="btn btn-primary" id="t-reset">🔄 TESİSİ SIFIRLA</button>
+    </div>
+    <div class="canvas-wrap"><div class="crt-overlay" id="t-crt" style="background:rgba(16,185,129,0.1)"></div><div class="hud-text">BOTANİK FİZİK MOTORU</div><div class="hud-status" id="t-status">Stabil Büyüme</div><div class="timer-hud" id="t-timer-hud"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="22" id="t-ring"/></svg><div class="timer-val" id="t-tval">12</div></div><canvas id="cv-tarim"></canvas></div>
+  </div>
+</div>
+
+<!-- ================= ERCİYES ================= -->
+<div class="page" id="page-erciyes">
+  <div class="sim-layout">
+    <div class="ctrl-panel">
+      <div class="ctrl-title">1. İKLİM MÜHENDİSLİĞİ</div>
+      <label class="ctrl-label">Kar Makinesi Hava Basıncı <span class="range-val" id="rv-epres">50 Bar</span></label><input type="range" id="e-pres" min="0" max="100" value="50">
+      <label class="ctrl-label">Maksimum Turist Hedefi <span class="range-val" id="rv-eturist">5k</span></label><input type="range" id="e-turist" min="1" max="20" value="5">
+      <div class="ctrl-title">2. KÜRESEL ISINMA</div>
+      <label class="ctrl-label">Atmosfer Sıcaklık Artışı (<span id="rv-ewarm" style="color:var(--alert)">0°C</span>)</label><input type="range" id="e-warm" min="0" max="10" value="0" step="0.5">
+      <button class="btn btn-warn" style="margin-top:30px" id="e-play">☀️ KÜRESEL ISINMAYI TETİKLE</button><button class="btn btn-primary" id="e-reset">🔄 MEVSİMİ SIFIRLA</button>
+    </div>
+    <div class="canvas-wrap"><div class="crt-overlay" id="e-crt" style="background:rgba(250,204,21,0.1)"></div><div class="hud-text">ERCİYES İKLİM AĞI</div><div class="hud-status" id="e-status">Doğal Akış</div><div class="timer-hud" id="e-timer-hud"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="22" id="e-ring"/></svg><div class="timer-val" id="e-tval">12</div></div><canvas id="cv-erciyes"></canvas></div>
+  </div>
+</div>
+
+<!-- ================= ENERJİ ================= -->
+<div class="page" id="page-enerji">
+  <div class="sim-layout">
+    <div class="ctrl-panel">
+      <div class="ctrl-title">1. ŞEBEKE MİMARİSİ</div>
+      <select id="en-src"><option value="clean">Rüzgar & Güneş Dağıtık Ağ</option><option value="coal">Merkezi Kömür Santrali</option></select>
+      <label class="ctrl-label">Mimar Yapay Zeka Desteği</label><select id="en-ai"><option value="on">Smart Grid (Yük Dengeleme Aktif)</option><option value="off">Tesis Geleneksel Manuel Modda</option></select>
+      <label class="ctrl-label">Mega Batarya Depolama <span class="range-val" id="rv-enbat">100 MWh</span></label><input type="range" id="en-bat" min="0" max="500" value="100">
+      <label class="ctrl-label">Kablo/Altyapı Kalitesi <span class="range-val" id="rv-enkablo">%80</span></label><input type="range" id="en-kablo" min="10" max="100" value="80">
+      <button class="btn btn-danger" style="margin-top:20px" id="en-play">🌩️ SÜPER HÜCRE FIRTINASI</button><button class="btn btn-primary" id="en-reset">🔄 ŞEBEKEYİ ONAR</button>
+    </div>
+    <div class="canvas-wrap"><div class="crt-overlay" id="en-crt" style="background:rgba(14,165,233,0.15)"></div><div class="hud-text">METROPOL ŞEBEKESİ</div><div class="hud-status" id="en-status">Sistem Online</div><div class="timer-hud" id="en-timer-hud"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="22" id="en-ring"/></svg><div class="timer-val" id="en-tval">12</div></div><canvas id="cv-enerji"></canvas></div>
+  </div>
+</div>
+
+<script src="similation.js"></script>
+</body>
+</html>

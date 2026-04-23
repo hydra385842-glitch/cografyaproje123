@@ -1,0 +1,9 @@
+DOSYA_NO: 0x48FA
+BAŞLIK: ÇEVRESEL DETERMINİZM ANALİZ RAPORU
+LOKASYON: SEKTÖR-7 GÜNEY DAĞLARI
+
+Yüksek sismik aktivite ve aşırı iklim koşulları bölgenin mimari gelişimini kısıtlamıştır.
+Fay hatları üzerinde kurulan ilk koloniler büyük yıkımlar yaşamış, doğanın kurallarına boyun eğmek zorunda kalmıştır.
+Yeraltı su seviyesi %80'in üzerinde. Sıvılaşma riski maksimum düzeyde.
+
+"Doğa her zaman kazanır."
