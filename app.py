@@ -4,7 +4,7 @@ import os
 
 # ───── PAGE CONFIG ─────
 st.set_page_config(
-    page_title="Mega Coğrafya Simülasyon Motoru",
+    page_title="Cografya Similasyon Motoru -Mehmet Sencer 9-A 330",
     page_icon="🌍",
     layout="wide",
     initial_sidebar_state="collapsed"
